@@ -21,11 +21,12 @@ then
         exit
     fi
 
-    AWS_REGION="us-east-1"
+    AWS_REGION="ap-southeast-2"
     IMAGE_NAME="building_detection"
-    ACCOUNT_ID=$(aws sts get-caller-identity --output text --query 'Account')
+    PROFILE="sandbox"
+    ACCOUNT_ID=$(aws sts get-caller-identity --profile ${PROFILE} --output text --query 'Account')
 
-    aws ecr get-login --no-include-email --region ${AWS_REGION} | bash;
+    aws ecr get-login --no-include-email --region ${AWS_REGION} --profile ${PROFILE} | bash;
     docker tag ${IMAGE_NAME} \
         ${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/$BUILDING_DETECTION_ECR_IMAGE
     docker push \
