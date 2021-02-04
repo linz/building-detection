@@ -18,9 +18,35 @@ to evaluate Raster Vision for the extraction of geo-spatial features from imager
 
 ### Setup
 
-* Build the Docker image using `docker/build`.
-* Set any environment variables needed by `docker/run`, which you can read about by running `docker/run --help`.
+* Build the Docker image 
 
+`docker/build`
+
+### Run
+
+* If using AWS resources, set the AWS_PROFILE environment variable. 
+This will be the profile used by the rastervision pipeline
+
+`export AWS_PROFILE=<profile name>`
+
+* Execute the `docker/run` script.
+If using AWS resources do so with the `--aws` flag. The `--aws` flag makes the AWS user configuration 
+available to the container
+
+`docker/run --aws`
+
+* In the container execute `rastervision run` as below. 
+If `-a test True`, the pipeline will select one image and crop it for a 
+test run. This allows for quick validation of the pipeline for debugging and
+development purposes. 
+
+```
+rastervision run local building_detection/building_detection.py \
+    -a raw_uri 's3://<bucketname>/' or <local path> \
+    -a processed_uri '/opt/data/processed/' \
+    -a root_uri '/opt/data/output/' \
+    -a test True
+```
 
 ## Contributing 
 See [CONTRIBUTING.md](https://github.com/linz/building-detection/blob/master/CONTRIBUTING.md)
