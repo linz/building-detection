@@ -23,7 +23,7 @@ then
 
     AWS_REGION="ap-southeast-2"
     IMAGE_NAME="building_detection"
-    PROFILE="sandbox"
+    PROFILE=${AWS_PROFILE}
     ACCOUNT_ID=$(aws sts get-caller-identity --profile ${PROFILE} --output text --query 'Account')
 
     aws ecr get-login --no-include-email --region ${AWS_REGION} --profile ${PROFILE} | bash;
