@@ -68,6 +68,7 @@ def get_dataset_filtered_by_tile(lds_api_key: str, lds_layer_to_tile: str, cql_f
         f"key={lds_api_key}"
         "/wfs?SERVICE=WFS"
         "&VERSION=2.0.0"
+        "&srsName=epsg:4326"
         "&REQUEST=GetFeature"
         f"&typeNames=layer-{lds_layer_to_tile}"
         f"&cql_filter=intersects(shape,{cql_filter_string})"
