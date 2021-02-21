@@ -15,7 +15,7 @@ rastervision run local building_detection/building_detection.py \
 import os
 from os.path import join
 
-from constants import BATCH_SIZE, CHIP_SIZE, NUM_EPOCHS, TEST_NUM_EPOCHS, TRAIN_IDS, VALID_IDS
+from constants import BATCH_SIZE, CHANNEL_ORDER, CHIP_SIZE, LEARNING_RATE, NUM_EPOCHS, TEST_NUM_EPOCHS, TRAIN_IDS, VALID_IDS
 from rastervision.core.data import (  # pylint: disable=import-error
     ClassConfig,
     DatasetConfig,
@@ -97,7 +97,7 @@ def get_config(runner, raw_uri, processed_uri, root_uri, test=False):
             label_uri = label_crop_uri
 
         # infrared, red, green
-        channel_order = [3, 0, 1]
+        channel_order = CHANNEL_ORDER
         raster_source = RasterioSourceConfig(uris=[raster_uri], channel_order=channel_order)
 
         # Vector Labels
@@ -131,7 +131,7 @@ def get_config(runner, raw_uri, processed_uri, root_uri, test=False):
     backend = PyTorchSemanticSegmentationConfig(
         model=SemanticSegmentationModelConfig(backbone=Backbone.resnet50),
         solver=SolverConfig(
-            lr=1e-4, num_epochs=NUM_EPOCHS, test_num_epochs=TEST_NUM_EPOCHS, batch_sz=BATCH_SIZE, one_cycle=True
+            lr=LEARNING_RATE, num_epochs=NUM_EPOCHS, test_num_epochs=TEST_NUM_EPOCHS, batch_sz=BATCH_SIZE, one_cycle=True
         ),
         log_tensorboard=True,
         run_tensorboard=False,
