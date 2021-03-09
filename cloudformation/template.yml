@@ -94,8 +94,8 @@ Parameters:
     Description: An Amazon EC2 key pair name to use for SSH access to the cluster
 
   SpotFleetBidPercentage:
-    Type: Number
-    Default: 60
+    Type: 'Number'
+    Default: 100
     Description: >
       Minimum percentage that a Spot Instance price must be when compared with
       the On-Demand price for that instance type before instances are launched
@@ -127,25 +127,25 @@ Parameters:
 
   GpuInstanceTypes:
     Type: List<String>
-    Default: p3.2xlarge
+    Default: p2.xlarge
     Description: >
       A comma-separated list of GPU-enabled instance types
 
   CpuInstanceTypes:
     Type: List<String>
-    Default: r5
+    Default: r5.large
     Description: >
       A comma-separated list of CPU-enabled instance types
 
   GPUInstanceVCPUs:
     Type: Number
-    Default: 8
-    Description: Number of vCPUs reserved for the container by the task definition for GPU instances
+    Default: 4
+    Description: Number of vCPUs reserved for the container by the task definition for GPU instances (4 should be used for P2 instances)
 
   GPUInstanceMemory:
     Type: Number
-    Default: 16000
-    Description: The hard limit (in MB) of memory to present to the container for GPU instances
+    Default: 40000
+    Description: The hard limit (in MB) of memory to present to the container for GPU instances (40000 should be used for P2 instances)
 
   GPUInstanceStorage:
     Type: Number
@@ -169,7 +169,7 @@ Parameters:
 
   PyTorchRepositoryName:
     Type: String
-    Default: ""
+    Default: building-detection-repository
     Description: >
       (Optional) Specifies the name of an ECR repository to create for use in
       pushing and pulling images -- if empty, pulls the latest
@@ -177,7 +177,7 @@ Parameters:
 
   ImageTag:
     Type: String
-    Default: ""
+    Default: latest
     Description: >
       (Optional) Tag of the CPU and GPU container image to retrieve from ECR -- required
       if CpuRepositoryName or GpuRepositoryName is not empty
@@ -499,4 +499,3 @@ Resources:
             SourceVolume: shm
         ReadonlyRootFilesystem: false
         Privileged: true
-

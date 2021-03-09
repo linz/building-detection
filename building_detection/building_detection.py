@@ -5,10 +5,24 @@ Usage:
 export AWS_PROFILE=sandbox
 docker/run --aws
 rastervision run local building_detection/building_detection.py \
-    -a raw_uri 's3://<bucketname>/' \
+    -a raw_uri 's3://building-detection-data/' \
     -a processed_uri '/opt/data/processed/' \
     -a root_uri '/opt/data/output/' \
     -a test True
+
+
+rastervision -p batch run batch building_detection/building_detection.py \
+    -a raw_uri 's3://building-detection-data/' \
+    -a processed_uri 's3://building-detection-data/output/data/processed/' \
+    -a root_uri 's3://building-detection-data/output/' \
+    -a test True
+
+rastervision -p batch run batch building_detection/building_detection.py \
+    -a raw_uri '3s://rastervisiontestp/' \
+    -a processed_uri 's3://rastervisiontestp/output/data/processed/' \
+    -a root_uri 's3://rastervisiontestp/output/' \
+    -a test True
+
 """
 
 # pylint disabled for RV imports. RV is intended to be executed in a container
