@@ -1,0 +1,21 @@
+{
+  "name": "building-detection",
+  "version": "1.0.0",
+  "repository": "git@github.com:linz/building-detection.git",
+  "author": "splanzer <splanzer@linz.govvt.nz>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-batch": "^1.92.0",
+    "@aws-cdk/aws-ecr-assets": "^1.93.0",
+    "@aws-cdk/aws-ecs": "^1.93.0",
+    "@aws-cdk/core": "^1.93.0",
+    "@linzjs/style": "^1.1.0",
+    "aws-cdk": "^1.92.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.33"
+  }
+}

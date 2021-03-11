@@ -2,14 +2,18 @@
 Configuration for building detection pipeline
 """
 
-TRAIN_IDS = ["BG43_5K_0709"]
+TRAIN_IDS = ["BG43_5000_0709_RGBI"]  # , "BG43_5000_0609", "BG43_5000_0710"]
 
-VALID_IDS = ["BG43_5K_0710"]
+VALID_IDS = ["BG43_5000_0507_RGBI"]  # , "BG43_5000_0508"]
+
+# TRAIN_IDS = ["BG32_5K_0708_TRAIN"]
+
+# VALID_IDS = ["BG32_5K_0708_VAL"]
 
 CHIP_SIZE = 300
 
 # NIR-RGB
-CHANNEL_ORDER = [4, 1, 2, 3]
+CHANNEL_ORDER = [0, 1, 2]
 
 # Segmentation Config
 NUM_EPOCHS = 50

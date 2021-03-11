@@ -86,7 +86,7 @@ def get_config(runner, raw_uri, processed_uri, root_uri, test=False):
         """
 
         scene_id = scene_id.replace("-", "_")
-        raster_uri = "{}images/{}.tif".format(raw_uri, scene_id)
+        raster_uri = "{}images/{}.TIF".format(raw_uri, scene_id)
         label_uri = "{}labels/{}.geojson".format(raw_uri, scene_id)
 
         if test:
