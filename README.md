@@ -16,13 +16,12 @@ This project is also an opportunity to evaluate Raster Vision for the extraction
 geo-spatial features from imagery in general.
 
 ## Running the Pipeline
-The Pipeline can be run either locally or on AWS Batch, but to train a deep 
-learning model you will need access to GPUs.
+The Pipeline can be run either locally or on AWS Batch. But to train a deep 
+learning model, you will need access to a decent GPU(s).
 
 ### Locally
-To train a model, GPUs are required. However during development, local execution for 
-testing and debugging is useful. Least using GPUs for local training it is 
-recommended the `test True` argument is provided. 
+To train a model, a GPU(s) is required. However during development, local execution 
+for testing and debugging is useful. 
 
 #### Setup
 
@@ -57,59 +56,37 @@ rastervision run local building_detection/building_detection.py \
 ```
 
 ### AWS Batch
-Make us of AWS GPU resources via AWS Batch
+Make use of AWS GPU resources via AWS Batch
 
-#### AWS Batch Setup
-In order to setup Batch, your AWS account will need to be configured so that:
-
-* You have admin permissions. It is possible with less permissions but this is 
-much less straightforward.
-* Have the ability to launch P2 or P3 instances.
-* Have the accounts credentials configured as a [named profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) 
 
 #### AWS Batch Resources Deployment 
-Batch resources are deployed via Cloudformation 
+This repository requires [NodeJs](https://nodejs.org/en/) > 12 & [Yarn](https://yarnpkg.com/en/)
 
-* In the AWS Cloudformation console, select `Create Stack` > `With new resources (standard)`
-* On the next page select `Upload a template file` and upload the [cloudformation/template.yml](https://github.com/linz/building-detection/blob/master/cloudformation/template.yml). Then Select `next`
-* On the next page (Specify stack details):
-  * Under `Stack name` give the stack a name.
-  * Select a `VPC`.
-  * Select a `Subnet` within the VPC.
-  * Select a `SSH key` Name'. This needs to have been created prior.
-  * Select a `Instance Type`. p3.2xlarge is a good starting point for training, though if just 
-  validating the setup select p2.xlarge 
-  * Provide a ECR `Repository Name (PyTorch)` and `Image Tag`. This ECR repository 
-  must not already exist as Cloudformation will create the AWS ECR.
-  * The remaining values can be left as defaults and `Next` selected
-* Accept the terms at the bottom of the page and select `Create Stack` This will deploy the Batch resources
+Use [n](https://github.com/tj/n) to manage nodeJs versions
 
-#### Publish Docker Image to ECR
-In the above step we pointed the Cloudformation resources at an ECR repository. The Pipeline image must be push
- to this ECR repository so that it can be used by the AWS Batch jobs.
+```bash
+# Download the latest nodejs & yarn
+n latest
+npm install -g yarn
 
+# Install node deps
+yarn
 
-* Run `./docker/build` in the building_detection root directory to build a local 
-copy of the Docker image.
+# Build everything into /build
+yarn run build
 
-* Create the repo name and image tag environment variable for the `ecr_publish` 
-script. 
+# Compare the stack with the deployed stack 
+npx cdk diff
 
-    i.e `BUILDING_DETECTION_ECR_IMAGE=<ecr_repo_name>:<tag_name>`
-
-* Run ./docker/ecr_publish in the building_detection root directory to publish the
-Docker  images to ECR. 
-
-Each time the Pipeline is modified the above steps need to be followed to update the Docker image
-that is available to the AWS Batch Jobs.
-
+# Deploy the strack 
+npx cdk deploy
+```
 
 #### Update Pipeline configuration
 After creating the Batch resources, set the following parameters in the
  [.rastervision/batch](https://github.com/linz/building-detection/blob/.rastervision/batch) 
  configuration file. Check the AWS Batch console to see the names of the 
-resources that were created, as they vary depending on how CloudFormation was 
-configured.
+resources that were created, as they can vary. 
 
 * gpu_job_queue - job queue for GPU jobs
 * gpu_job_def - job definition that defines the GPU Batch jobs
@@ -126,7 +103,7 @@ configured.
 
 `docker/run --aws`
 
-* run the RasterVision `batch` command
+* Run the RasterVision `batch` command
 
 ```
 rastervision -p batch run batch building_detection/building_detection.py \
@@ -138,6 +115,16 @@ rastervision -p batch run batch building_detection/building_detection.py \
 For Example
 ```
 rastervision -p batch run batch building_detection/building_detection.py \
+    -a raw_uri 's3://rastervisiontest/' \
+    -a processed_uri 's3://rastervisiontest/output/data/processed/' \
+    -a root_uri 's3://rastervisiontest/output/'
+```
+
+or just select commands such as train, predict and eval
+
+```
+rastervision -p batch run batch building_detection/building_detection.py \
+    train predict eval
     -a raw_uri 's3://rastervisiontest/' \
     -a processed_uri 's3://rastervisiontest/output/data/processed/' \
     -a root_uri 's3://rastervisiontest/output/'

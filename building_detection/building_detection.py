@@ -1,14 +1,5 @@
 """
 Rastervision pipeline for building detection
-
-Usage:
-export AWS_PROFILE=sandbox
-docker/run --aws
-rastervision run local building_detection/building_detection.py \
-    -a raw_uri 's3://<bucketname>/' \
-    -a processed_uri '/opt/data/processed/' \
-    -a root_uri '/opt/data/output/' \
-    -a test True
 """
 
 # pylint disabled for RV imports. RV is intended to be executed in a container
@@ -86,7 +77,7 @@ def get_config(runner, raw_uri, processed_uri, root_uri, test=False):
         """
 
         scene_id = scene_id.replace("-", "_")
-        raster_uri = "{}images/{}.TIF".format(raw_uri, scene_id)
+        raster_uri = "{}images/{}.tif".format(raw_uri, scene_id)
         label_uri = "{}labels/{}.geojson".format(raw_uri, scene_id)
 
         if test:
@@ -129,7 +120,7 @@ def get_config(runner, raw_uri, processed_uri, root_uri, test=False):
     chip_options = SemanticSegmentationChipOptions(window_method=SemanticSegmentationWindowMethod.sliding, stride=chip_size)
 
     backend = PyTorchSemanticSegmentationConfig(
-        model=SemanticSegmentationModelConfig(backbone=Backbone.resnet50),
+        model=SemanticSegmentationModelConfig(backbone=Backbone.resnet101),
         solver=SolverConfig(
             lr=LEARNING_RATE, num_epochs=NUM_EPOCHS, test_num_epochs=TEST_NUM_EPOCHS, batch_sz=BATCH_SIZE, one_cycle=True
         ),
