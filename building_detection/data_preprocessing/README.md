@@ -47,7 +47,7 @@ by the default tile index (([nz-15k-tile-index](https://data.linz.govt.nz/layer/
 and writes them locally. 
 
 ```
-python /create_labels.py \
+python create_labels.py \
     --output-path <path_to_write_labels_to> \
     --tile-id "BQ31_5000_0610" \
     --tile-id "BQ31_5000_0509" \
@@ -61,7 +61,7 @@ The bellow performs the same tiling operation as above but outputs the labels to
 ```
 export LDS_API_KEY=<YOUR LDS KEY>
 
-python /create_labels.py \
+python create_labels.py \
     --store-type s3 \
     --aws-profile <named aws profile> \
     --output-path <s3 bucket name> \

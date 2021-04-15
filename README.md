@@ -106,7 +106,7 @@ resources that were created, as they can vary.
 * Run the RasterVision `batch` command
 
 ```
-rastervision -p batch run batch building_detection/building_detection.py \
+rastervision -p <profile> run batch building_detection/building_detection.py \
     -a raw_uri 's3://<Bucket name where images and labels  are>/' \
     -a processed_uri '<Path to processed data>' \
     -a root_uri '<Path to outputs>'
@@ -114,7 +114,7 @@ rastervision -p batch run batch building_detection/building_detection.py \
 
 For Example
 ```
-rastervision -p batch run batch building_detection/building_detection.py \
+rastervision -p <profile> run batch building_detection/building_detection.py \
     -a raw_uri 's3://rastervisiontest/' \
     -a processed_uri 's3://rastervisiontest/output/data/processed/' \
     -a root_uri 's3://rastervisiontest/output/'
@@ -123,12 +123,26 @@ rastervision -p batch run batch building_detection/building_detection.py \
 or just select commands such as train, predict and eval
 
 ```
-rastervision -p batch run batch building_detection/building_detection.py \
+rastervision -p profile run batch building_detection/building_detection.py \
     train predict eval
     -a raw_uri 's3://rastervisiontest/' \
     -a processed_uri 's3://rastervisiontest/output/data/processed/' \
     -a root_uri 's3://rastervisiontest/output/'
 ```
+
+## Predict
+currently predict can only be executed locally 
+
+Using a trained model run the below
+
+```
+rastervision predict <path to model-bundle.zip> \
+    <path to image to predict on> \
+    <output path for TIFF with predictions> \
+    --vector-label-uri <(output path for vectorised predictions)>
+```
+
+
 
 ## Contributing 
 See [CONTRIBUTING.md](https://github.com/linz/building-detection/blob/master/CONTRIBUTING.md)
