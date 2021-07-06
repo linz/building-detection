@@ -1,4 +1,4 @@
-FROM quay.io/azavea/raster-vision:pytorch-0.12
+FROM quay.io/azavea/raster-vision:pytorch-0.13.1
 
 # Uncomment once requirements.txt is merged to master
 # COPY ./rastervision_building_detection/requirements.txt /opt/src/requirements.txt

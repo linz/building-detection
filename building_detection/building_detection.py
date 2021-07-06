@@ -16,19 +16,17 @@ from rastervision.core.data import (  # pylint: disable=import-error
     RasterizerConfig,
     SemanticSegmentationLabelSourceConfig,
     SemanticSegmentationLabelStoreConfig,
+    StatsTransformerConfig,
 )
 from rastervision.core.data.raster_source import RasterizedSourceConfig  # pylint: disable=import-error
 from rastervision.core.data.scene_config import SceneConfig  # pylint: disable=import-error
-from rastervision.core.rv_pipeline import (  # pylint: disable=import-error
-    SemanticSegmentationChipOptions,
-    SemanticSegmentationConfig,
-)
-from rastervision.core.rv_pipeline.semantic_segmentation_config import (  # pylint: disable=import-error
-    SemanticSegmentationWindowMethod,
-)
+from rastervision.core.rv_pipeline import SemanticSegmentationConfig  # pylint: disable=import-error
 from rastervision.pytorch_backend import PyTorchSemanticSegmentationConfig  # pylint: disable=import-error
 from rastervision.pytorch_learner import (  # pylint: disable=import-error
     Backbone,
+    GeoDataWindowConfig,
+    GeoDataWindowMethod,
+    SemanticSegmentationGeoDataConfig,
     SemanticSegmentationModelConfig,
     SolverConfig,
 )
@@ -89,7 +87,9 @@ def get_config(runner, raw_uri, processed_uri, root_uri, test=False):
 
         # infrared, red, green
         channel_order = CHANNEL_ORDER
-        raster_source = RasterioSourceConfig(uris=[raster_uri], channel_order=channel_order)
+        raster_source = RasterioSourceConfig(
+            uris=[raster_uri], channel_order=channel_order, transformers=[StatsTransformerConfig()]
+        )
 
         # Vector Labels
         vector_source = GeoJSONVectorSourceConfig(uri=label_uri, default_class_id=0, ignore_crs_field=True)
@@ -109,21 +109,27 @@ def get_config(runner, raw_uri, processed_uri, root_uri, test=False):
 
         return scene
 
-    dataset = DatasetConfig(
+    scene_dataset = DatasetConfig(
         class_config=class_config,
         train_scenes=[make_scene(id) for id in train_ids],
         validation_scenes=[make_scene(id) for id in val_ids],
     )
 
-    chip_size = CHIP_SIZE
-
-    chip_options = SemanticSegmentationChipOptions(window_method=SemanticSegmentationWindowMethod.sliding, stride=chip_size)
+    # chip_options = SemanticSegmentationChipOptions(window_method=SemanticSegmentationWindowMethod.sliding, stride=chip_size)
 
     backend = PyTorchSemanticSegmentationConfig(
-        model=SemanticSegmentationModelConfig(backbone=Backbone.resnet101),
-        solver=SolverConfig(
-            lr=LEARNING_RATE, num_epochs=NUM_EPOCHS, test_num_epochs=TEST_NUM_EPOCHS, batch_sz=BATCH_SIZE, one_cycle=True
+        data=SemanticSegmentationGeoDataConfig(
+            scene_dataset=scene_dataset,
+            window_opts=GeoDataWindowConfig(
+                method=GeoDataWindowMethod.sliding,
+                stride=CHIP_SIZE,
+                size=CHIP_SIZE,
+                size_lims=(CHIP_SIZE, CHIP_SIZE + 1),
+                max_windows=10,  # TODO// set via consts
+            ),
         ),
+        model=SemanticSegmentationModelConfig(backbone=Backbone.resnet101),  # TODO 101
+        solver=SolverConfig(lr=LEARNING_RATE, num_epochs=NUM_EPOCHS, test_num_epochs=TEST_NUM_EPOCHS, batch_sz=BATCH_SIZE),
         log_tensorboard=True,
         run_tensorboard=False,
         test_mode=test,
@@ -131,9 +137,9 @@ def get_config(runner, raw_uri, processed_uri, root_uri, test=False):
 
     return SemanticSegmentationConfig(
         root_uri=root_uri,
-        dataset=dataset,
+        dataset=scene_dataset,
         backend=backend,
-        train_chip_sz=chip_size,
-        predict_chip_sz=chip_size,
-        chip_options=chip_options,
+        train_chip_sz=CHIP_SIZE,
+        predict_chip_sz=CHIP_SIZE,
+        # chip_options=CHIP_SIZE,
     )

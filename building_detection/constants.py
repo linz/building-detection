@@ -1,5 +1,13 @@
 """
 Configuration for building detection pipeline
+
+
+rastervision run local building_detection/building_detection.py \
+    -a raw_uri 's3://building-detection-data/' \
+    -a processed_uri '/opt/data/processed/' \
+    -a root_uri '/opt/data/output/' \
+    -a test True
+
 """
 
 TRAIN_IDS = [
@@ -38,7 +46,7 @@ VALID_IDS = ["BD45_5K_0701", "BE44_5K_1010", "BE44_5K_0310", "BD45_5K_0907", "BG
 CHIP_SIZE = 300
 
 # NIR-RGB
-CHANNEL_ORDER = [0, 1, 2]
+CHANNEL_ORDER = [0, 1, 2, 3]
 
 # Segmentation Config
 NUM_EPOCHS = 54
