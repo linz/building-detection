@@ -194,7 +194,7 @@ export class RasterVisionStack extends cdk.Stack {
       type: 'MANAGED',
       serviceRole: batchServiceRole.roleArn,
       computeResources: {
-        type: 'SPOT',
+        type: 'EC2',
         maxvCpus: 80,
         minvCpus: 0,
         desiredvCpus: 0,
