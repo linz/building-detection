@@ -1,6 +1,20 @@
 """
 Rastervision pipeline for building detection.
 Modified for Rastervision 0.13
+
+USAGE:
+rastervision -p batch run batch building_detection/building_detection.py \
+    analyze train predict eval bundle \
+    -a labels_uri 's3://<bucket>' \
+    -a processed_uri 's3://<bucket>/output/data/processed' \
+    -a root_uri 's3://<bucket>/output'\
+    -a multiband False
+
+rastervision run local building_detection/building_detection.py \
+    -a labels_uri 's3://<bucket>' \
+    -a processed_uri '/opt/data/processed/' \
+    -a root_uri '/opt/data/output/' \
+    -a test True
 """
 
 # pylint disabled for RV imports. RV is intended to be executed in a container

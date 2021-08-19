@@ -98,7 +98,7 @@ export class RasterVisionStack extends cdk.Stack {
       type: 'MANAGED',
       serviceRole: batchServiceRole.roleArn,
       computeResources: {
-        type: 'ON_DEMAND', //TODO temp ON_DEMAND while under dev
+        type: 'SPOT',
         maxvCpus: 80,
         minvCpus: 0,
         desiredvCpus: 0,
@@ -194,7 +194,7 @@ export class RasterVisionStack extends cdk.Stack {
       type: 'MANAGED',
       serviceRole: batchServiceRole.roleArn,
       computeResources: {
-        type: 'ON_DEMAND',
+        type: 'SPOT',
         maxvCpus: 80,
         minvCpus: 0,
         desiredvCpus: 0,

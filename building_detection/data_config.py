@@ -1,9 +1,9 @@
 """
-Config data
-Could be json but VSC is formating the python dict nicer
+Config data for training and validation
 """
 
-image_datasets = {
+# Paths to datasets
+IMAGE_DATASETS = {
     "auckland_urban_2017_0.075m": {
         "s3_uri": "s3://linz-raster-data-store",
         "path": "aerial-imagery/auckland_urban_2017_0.075m",
@@ -31,141 +31,38 @@ image_datasets = {
     },
 }
 
-DATA_CONFIG = {
-    #########################
-    ### TRAINING DATA
-    #########################
-    # Auckland_urban_2017_0.075m
-    "training": {
-        # Auckland_urban_2017_0.075m
-        "BA32_4010": {
-            "s3_uri": image_datasets["auckland_urban_2017_0.075m"]["s3_uri"],
-            "path": image_datasets["auckland_urban_2017_0.075m"]["path"],
-            "file_type": image_datasets["auckland_urban_2017_0.075m"]["file_type"],
-        },
-        "BA32_4011": {
-            "s3_uri": image_datasets["auckland_urban_2017_0.075m"]["s3_uri"],
-            "path": image_datasets["auckland_urban_2017_0.075m"]["path"],
-            "file_type": image_datasets["auckland_urban_2017_0.075m"]["file_type"],
-        },
-        "BA32_3911": {
-            "s3_uri": image_datasets["auckland_urban_2017_0.075m"]["s3_uri"],
-            "path": image_datasets["auckland_urban_2017_0.075m"]["path"],
-            "file_type": image_datasets["auckland_urban_2017_0.075m"]["file_type"],
-        },
-        # Christchurch_urban_2015-2016_0.075m_RGB
-        "BX24_500_014012": {
-            "s3_uri": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["s3_uri"],
-            "path": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["path"],
-            "file_type": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["file_type"],
-        },
-        "BX24_500_014013": {
-            "s3_uri": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["s3_uri"],
-            "path": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["path"],
-            "file_type": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["file_type"],
-        },
-        "BX24_500_015013": {
-            "s3_uri": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["s3_uri"],
-            "path": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["path"],
-            "file_type": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["file_type"],
-        },
-        "BX24_500_015012": {  # VALIDATION
-            "s3_uri": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["s3_uri"],
-            "path": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["path"],
-            "file_type": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["file_type"],
-        },
-        # hawkes-bay_rural_2014-2015_0.30m_RGBA
-        "BK39_5000_0104": {
-            "s3_uri": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["s3_uri"],
-            "path": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["path"],
-            "file_type": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["file_type"],
-        },
-        "BK39_5000_0105": {
-            "s3_uri": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["s3_uri"],
-            "path": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["path"],
-            "file_type": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["file_type"],
-        },
-        "BK39_5000_0204": {
-            "s3_uri": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["s3_uri"],
-            "path": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["path"],
-            "file_type": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["file_type"],
-        },
-        "BK39_5000_0205": {  # Validate
-            "s3_uri": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["s3_uri"],
-            "path": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["path"],
-            "file_type": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["file_type"],
-        },
-        # waikato_rural_2017-19_0.3m
-        "BD33_5000_0610": {
-            "s3_uri": image_datasets["waikato_rural_2017-19_0.3m"]["s3_uri"],
-            "path": image_datasets["waikato_rural_2017-19_0.3m"]["path"],
-            "file_type": image_datasets["waikato_rural_2017-19_0.3m"]["file_type"],
-        },
-        "BD33_5000_0710": {
-            "s3_uri": image_datasets["waikato_rural_2017-19_0.3m"]["s3_uri"],
-            "path": image_datasets["waikato_rural_2017-19_0.3m"]["path"],
-            "file_type": image_datasets["waikato_rural_2017-19_0.3m"]["file_type"],
-        },
-        "BD33_5000_0810": {
-            "s3_uri": image_datasets["waikato_rural_2017-19_0.3m"]["s3_uri"],
-            "path": image_datasets["waikato_rural_2017-19_0.3m"]["path"],
-            "file_type": image_datasets["waikato_rural_2017-19_0.3m"]["file_type"],
-        },
-        "BD34_5000_0701": {  # Validate
-            "s3_uri": image_datasets["waikato_rural_2017-19_0.3m"]["s3_uri"],
-            "path": image_datasets["waikato_rural_2017-19_0.3m"]["path"],
-            "file_type": image_datasets["waikato_rural_2017-19_0.3m"]["file_type"],
-        },
-        # otago_rural_2017-19_0.3m
-        "2018_CC11_5000_0106": {
-            "s3_uri": image_datasets["otago_rural_2017-19_0.3m"]["s3_uri"],
-            "path": image_datasets["otago_rural_2017-19_0.3m"]["path"],
-            "file_type": image_datasets["otago_rural_2017-19_0.3m"]["file_type"],
-        },
-        "2018_CC11_5000_0107": {
-            "s3_uri": image_datasets["otago_rural_2017-19_0.3m"]["s3_uri"],
-            "path": image_datasets["otago_rural_2017-19_0.3m"]["path"],
-            "file_type": image_datasets["otago_rural_2017-19_0.3m"]["file_type"],
-        },
-        "2018_CB11_5000_1007": {
-            "s3_uri": image_datasets["otago_rural_2017-19_0.3m"]["s3_uri"],
-            "path": image_datasets["otago_rural_2017-19_0.3m"]["path"],
-            "file_type": image_datasets["otago_rural_2017-19_0.3m"]["file_type"],
-        },
-    },
-    #########################
-    ### VALIDATION DATA
-    #########################
-    # Auckland_urban_2017_0.075m
-    "validation": {
-        "BA32_3910": {
-            "s3_uri": image_datasets["auckland_urban_2017_0.075m"]["s3_uri"],
-            "path": image_datasets["auckland_urban_2017_0.075m"]["path"],
-            "file_type": image_datasets["auckland_urban_2017_0.075m"]["file_type"],
-            # Christchurch_urban_2015-2016_0.075m_RGB
-        },
-        "BX24_500_015012": {
-            "s3_uri": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["s3_uri"],
-            "path": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["path"],
-            "file_type": image_datasets["christchurch_urban_2015-2016_0.075m_RGB"]["file_type"],
-        },
-        # hawkes-bay_rural_2014-2015_0.30m_RGBA
-        "BK39_5000_0104": {
-            "s3_uri": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["s3_uri"],
-            "path": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["path"],
-            "file_type": image_datasets["hawkes-bay_rural_2014-2015_0.30m_RGBA"]["file_type"],
-        },
-        # waikato_rural_2017-19_0.3m
-        "BD34_5000_0701": {
-            "s3_uri": image_datasets["waikato_rural_2017-19_0.3m"]["s3_uri"],
-            "path": image_datasets["waikato_rural_2017-19_0.3m"]["path"],
-            "file_type": image_datasets["waikato_rural_2017-19_0.3m"]["file_type"],
-        },
-        # otago_rural_2017-19_0.3m
-        "2018_CB11_5000_1006": {
-            "s3_uri": image_datasets["otago_rural_2017-19_0.3m"]["s3_uri"],
-            "path": image_datasets["otago_rural_2017-19_0.3m"]["path"],
-            "file_type": image_datasets["otago_rural_2017-19_0.3m"]["file_type"],
-        },
-    },
+# Manage Datasets for training and validation here
+TRAINING_DATASETS = {
+    "auckland_urban_2017_0.075m": ["BA32_4010", "BA32_4011", "BA32_3911"],
+    "christchurch_urban_2015-2016_0.075m_RGB": ["BX24_500_014012", "BX24_500_014013", "BX24_500_015013", "BX24_500_015012"],
+    "hawkes-bay_rural_2014-2015_0.30m_RGBA": ["BK39_5000_0104", "BK39_5000_0105", "BK39_5000_0204", "BK39_5000_0205"],
+    "waikato_rural_2017-19_0.3m": ["BD33_5000_0610", "BD33_5000_0710", "BD33_5000_0810", "BD34_5000_0701"],
+    "otago_rural_2017-19_0.3m": ["2018_CC11_5000_0106", "2018_CC11_5000_0107", "2018_CB11_5000_1007"],
 }
+VALIDATION_DATASETS = {
+    "auckland_urban_2017_0.075m": ["BA32_3910"],
+    "christchurch_urban_2015-2016_0.075m_RGB": ["BX24_500_015012"],
+    "hawkes-bay_rural_2014-2015_0.30m_RGBA": ["BK39_5000_0104"],
+    "waikato_rural_2017-19_0.3m": ["BD34_5000_0701"],
+    "otago_rural_2017-19_0.3m": ["2018_CB11_5000_1006"],
+}
+
+
+def get_training_data():
+    """
+    Return python dict of data and its paths
+    """
+
+    train_and_validation_data = {}
+    image_id_and_path = {}
+    datasets = {"validation": VALIDATION_DATASETS, "training": TRAINING_DATASETS}
+    for training_data_type, training_data in datasets.items():
+        for imagery_dataset, tile_ids in training_data.items():
+            for tile_id in tile_ids:
+                image_id_and_path[tile_id] = {
+                    "s3_uri": IMAGE_DATASETS[imagery_dataset]["s3_uri"],
+                    "path": IMAGE_DATASETS[imagery_dataset]["path"],
+                    "file_type": IMAGE_DATASETS[imagery_dataset]["file_type"],
+                }
+            train_and_validation_data[training_data_type] = image_id_and_path
+    return train_and_validation_data
