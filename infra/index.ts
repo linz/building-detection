@@ -4,6 +4,7 @@ import batch = require('@aws-cdk/aws-batch');
 import ec2 = require('@aws-cdk/aws-ec2');
 import ecrAssets = require('@aws-cdk/aws-ecr-assets');
 import { join } from "path";
+import ecs = require('@aws-cdk/aws-ecs');
 
 const rasterVision = new cdk.App();
 
@@ -235,6 +236,11 @@ export class RasterVisionStack extends cdk.Stack {
         memory: 12000,
         privileged: true,
         readonlyRootFilesystem: false,
+        ulimits: [{
+          softLimit: 2048,
+          hardLimit: 8192,
+          name: 'nofile'
+        }],
         linuxParameters: {
           sharedMemorySize: 12000
         },

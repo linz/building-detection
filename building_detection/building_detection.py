@@ -1,6 +1,7 @@
 """
 Rastervision pipeline for building detection.
 Modified for Rastervision 0.13
+
 """
 
 # pylint disabled for RV imports. RV is intended to be executed in a container
@@ -149,10 +150,10 @@ def get_config(
         img_channels=len(channel_order),
         num_workers=4,
         channel_display_groups=channel_display_groups,
-        augmentors=["RandomRotate90", "HorizontalFlip", "VerticalFlip"],
+        augmentors=[],  # ["RandomRotate90", "HorizontalFlip", "VerticalFlip"],
     )
 
-    model = SemanticSegmentationModelConfig(backbone=Backbone.resnet101)
+    model = SemanticSegmentationModelConfig(backbone=Backbone.resnet101)  # resnet101)
 
     backend = PyTorchSemanticSegmentationConfig(
         data=data,
