@@ -57,11 +57,14 @@ def format_coordinates_for_cql(tile_coordinates: str) -> str:
     return cql_filter_string
 
 
-def get_dataset_filtered_by_tile(lds_api_key: str, lds_layer_to_tile: str, cql_filter_string: str) -> dict:
+def get_dataset_filtered_by_tile(
+    lds_api_key: str, lds_layer_to_tile: str, cql_filter_string: str, building_source_imagery: str
+) -> dict:
     """
     Use the tiles coordinates (as provided by the cql_filter_string) to request a LDS
     layer's features that fall within the index tile's extent.
     """
+    source_name = urllib.parse.quote(building_source_imagery.encode("utf8"))
 
     url = (
         "https://data.linz.govt.nz/services;"
@@ -71,10 +74,9 @@ def get_dataset_filtered_by_tile(lds_api_key: str, lds_layer_to_tile: str, cql_f
         "&srsName=epsg:4326"
         "&REQUEST=GetFeature"
         f"&typeNames=layer-{lds_layer_to_tile}"
-        f"&cql_filter=intersects(shape,{cql_filter_string})"
+        f"&cql_filter=capture_source_name='{source_name}'+AND+intersects(shape,{cql_filter_string})"
         "&outputformat=json"
     )
-
     with urllib.request.urlopen(url) as url:
         data_by_tile = json.loads(url.read().decode())
     return data_by_tile
@@ -118,7 +120,12 @@ def write_data_to_bucket(output_path: str, aws_profile: str, tile_id: str, data:
 @click.option(
     "--lds-tile-id-field", default="index_tile_id", help="The index tile dataset's attribute name for the tile id field"
 )
-@click.option("--lds-layer-to-tile", default="101290", help="The id of the lds layer that is to be chunked by index tile")
+@click.option("--lds-layer-to-tile", default="101292", help="The id of the lds layer that is to be chunked by index tile")
+@click.option(
+    "--building-source-imagery",
+    default="",
+    help="The source imagery of the building outlines. This is to avoid buildings from newer imagery ",
+)
 @click.option(
     "--tile-id",
     required=True,
@@ -148,6 +155,7 @@ def tiles_lds_feature(
     output_path: str,
     store_type: str,
     aws_profile: str,
+    building_source_imagery: str,
 ) -> str:
     """ Chunk LDS dataset by LDS index tiles """
 
@@ -160,7 +168,7 @@ def tiles_lds_feature(
         cql_filter_string = format_coordinates_for_cql(tile_coordinates[0])
 
         # get dataset filtered by tile
-        data = get_dataset_filtered_by_tile(lds_api_key, lds_layer_to_tile, cql_filter_string)
+        data = get_dataset_filtered_by_tile(lds_api_key, lds_layer_to_tile, cql_filter_string, building_source_imagery)
 
         # Write data
         if store_type == "local":
