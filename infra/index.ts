@@ -7,13 +7,14 @@ import { join } from "path";
 import ecs = require('@aws-cdk/aws-ecs');
 
 const rasterVision = new cdk.App();
+const prefix = 'predict321'
 
 export class RasterVisionStack extends cdk.Stack {
   public constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     const batchServiceRole = new iam.Role(this, 'RasterVisionBatchRole', {
-      roleName: 'RasterVisionBatchRole',
+      roleName: prefix + 'RasterVisionBatchRole',
       assumedBy: new iam.ServicePrincipal('batch.amazonaws.com'),
     });
 
@@ -23,7 +24,7 @@ export class RasterVisionStack extends cdk.Stack {
 
 
     const spotFleetRole = new iam.Role(this, 'RasterVisionSpotFleetRole', {
-      roleName: 'RasterVisionSpotFleetRole',
+      roleName: prefix + 'RasterVisionSpotFleetRole',
       assumedBy: new iam.ServicePrincipal('spotfleet.amazonaws.com'),
     });
     spotFleetRole.addManagedPolicy(
@@ -32,7 +33,7 @@ export class RasterVisionStack extends cdk.Stack {
 
 
     const batchInstanceRole = new iam.Role(this, 'RasterVisionInstanceRole', {
-      roleName: 'RasterVisionInstanceRole',
+      roleName: prefix + 'RasterVisionInstanceRole',
       assumedBy: new iam.CompositePrincipal(
         new iam.ServicePrincipal('ec2.amazonaws.com'),
         new iam.ServicePrincipal('ecs.amazonaws.com'),
@@ -86,7 +87,7 @@ export class RasterVisionStack extends cdk.Stack {
       ],
     };
 
-    const launchTemplateName = `LaunchTemplate`;
+    const launchTemplateName = prefix + `LaunchTemplate`;
     new ec2.CfnLaunchTemplate(this, launchTemplateName, { launchTemplateData, launchTemplateName });
 
 
@@ -120,7 +121,7 @@ export class RasterVisionStack extends cdk.Stack {
 
     // Cpu Job Definition 
     new batch.CfnJobDefinition(this, 'RasterVisionCustomPyTorchCpuJobDefinition', {
-      jobDefinitionName: 'RasterVisionCustomPyTorchCpuJobDefinition',
+      jobDefinitionName: prefix + 'RasterVisionCustomPyTorchCpuJobDefinition',
       type: 'container',
       containerProperties: {
         image: container.imageUri,
@@ -175,7 +176,7 @@ export class RasterVisionStack extends cdk.Stack {
 
     // Cpu Job Queue
     new batch.CfnJobQueue(this, 'RasterVisionCpuJobQueue', {
-      jobQueueName: 'RasterVisionCpuJobQueue',
+      jobQueueName: prefix + 'RasterVisionCpuJobQueue',
       computeEnvironmentOrder: [
         {
           computeEnvironment: CpuComputeEnv.ref,
@@ -216,7 +217,7 @@ export class RasterVisionStack extends cdk.Stack {
 
     // Gpu Job Definition 
     new batch.CfnJobDefinition(this, 'RasterVisionCustomPyTorchGpuJobDefinition', {
-      jobDefinitionName: 'RasterVisionCustomPyTorchGpuJobDefinition',
+      jobDefinitionName: prefix + 'RasterVisionCustomPyTorchGpuJobDefinition',
       type: 'container',
       containerProperties: {
         image: container.imageUri,
@@ -286,7 +287,7 @@ export class RasterVisionStack extends cdk.Stack {
 
     // Gpu Job Queue
     new batch.CfnJobQueue(this, 'RasterVisionGpuJobQueue', {
-      jobQueueName: 'RasterVisionGpuJobQueue',
+      jobQueueName: prefix + 'RasterVisionGpuJobQueue',
       computeEnvironmentOrder: [
         {
           computeEnvironment: GpuComputeEnv.ref,
@@ -298,4 +299,4 @@ export class RasterVisionStack extends cdk.Stack {
   }
 }
 
-new RasterVisionStack(rasterVision, 'BuildingDetection', { env: { region: 'ap-southeast-2', account: '686418035187' } });
+new RasterVisionStack(rasterVision, prefix + 'BuildingDetection', { env: { region: 'ap-southeast-2', account: '686418035187' } });

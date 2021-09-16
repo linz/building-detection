@@ -1,5 +1,7 @@
 """
 Config data for training and validation
+
+
 """
 
 # Paths to datasets
@@ -201,9 +203,16 @@ TRAINING_DATASETS = {
     "gisborne_rural_2017-18_0.3m": ["BG43_5K_0608"],  #  Added at  epoch31
     "canterbury_rural_2014-2015_0.30m_RGBA": ["BU25_5000_0607", "BU24_5000_0209"],  #  Added at  epoch31
     "tasman_rural_2016-17_0.3m": ["RGB_BR24_5K_1010", "RGB_BR25_5K_0902"],  # Added at epoch 51
-    "canterbury_rural_2016-18_0.3m": ["RGB_BW20_5K_1006", "RGB_BX20_5K_0902"],  # Added at epoch 51
+    "canterbury_rural_2016-18_0.3m": [
+        "RGB_BW20_5K_1006",
+        "RGB_BX20_5K_0902",
+        "RGB_BZ19_5K_0105",
+        "RGB_BZ19_5K_0107",
+        "RGB_BY21_5K_0603",
+    ],  # Added at epoch 51
     "bay-of-plenty_rural_2015-17_0.25m": ["BE37_2K_2318"],  # Added at epoch 51
     "tasman_rural_2018-19_0.3m": ["2019_BP25_5000_0606"],  # Added at epoch 51
+    "canterbury_rural_2015-2016_0.30m_RGBA": ["BY15_5000_0108", "BX15_5000_1007", "BX17_5000_0206"],  # 90
 }
 VALIDATION_DATASETS = {
     "auckland_urban_2017_0.075m": ["BA31_3549", "BA32_3902", "BA32_3903"],
@@ -224,8 +233,9 @@ VALIDATION_DATASETS = {
     "gisborne_rural_2017-18_0.3m": ["BG43_5K_0709"],  # Added at epoch 31
     "canterbury_rural_2014-2015_0.30m_RGBA": ["BW24_5000_0206", "BU26_5000_0101"],  # Added at epoch 31
     "tasman_rural_2016-17_0.3m": ["RGB_BR25_5K_0903"],  # Added at epoch 51
-    "canterbury_rural_2016-18_0.3m": ["RGB_BX20_5K_0610"],  # Added at epoch 51
+    "canterbury_rural_2016-18_0.3m": ["RGB_BX20_5K_0610", "RGB_BY21_5K_0606", "RGB_BZ19_5K_0205"],  # Added at epoch 51
     "bay-of-plenty_rural_2015-17_0.25m": ["BE37_2K_2422"],  # Added at poc h51
+    "canterbury_rural_2015-2016_0.30m_RGBA": ["BX16_5000_0601"],  # 90
 }
 # Test datasets (holdout datasets)
 # VALIDATION_DATASETS = {
@@ -288,8 +298,8 @@ VALIDATION_DATASETS = {
 #     ],
 #     "nelson_rural_2018-19_0.3m": ["2019_BQ26_5000_0504", "2019_BQ26_5000_0407", "2019_BQ26_5000_0110"],
 #     # More test data - Selected by Jan and Simon
-#     "auckland_urban_2017_0.075m": ["BA31_2333", "BA32_5025", "BA32_4732",
-#     "BA31_3117", "BB30_0650", "BB31_0802", "BA32_1301"],
+#     "auckland_urban_2017_0.075m": ["BA31_2333", "BA32_5025", "BA32_4732", "BA31_3117",
+#  "BB30_0650", "BB31_0802", "BA32_1301"],
 #     "christchurch_urban_2015-2016_0.075m_RGB": [
 #         "BX24_500_060032",
 #         "BX24_500_059032",
