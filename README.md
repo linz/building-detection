@@ -13,14 +13,14 @@ Pipeline for training computer vision models based on [Raster Vision](https://gi
 ## Purpose
 This initial pipeline focuses on training models to extract buildings from imagery. 
 This project is also an opportunity to evaluate Raster Vision for the extraction of 
-geo-spatial features from imagery in general.
+geospatial features from imagery in general.
 
 ## Running the Pipeline
 The Pipeline can be run either locally or on AWS Batch. But to train a deep 
 learning model, you will need access to a decent GPU(s).
 
 ### Locally
-To train a model, a GPU(s) is required. However during development, local execution 
+To train a model, GPU enabled hardware is required. However during development, local execution 
 for testing and debugging is useful. 
 
 #### Setup
@@ -49,7 +49,7 @@ development purposes.
 
 ```
 rastervision run local building_detection/building_detection.py \
-    -a raw_uri 's3://<bucketname>/' or <local path> \
+    -a labels_uri '<path to labels>' \
     -a processed_uri '/opt/data/processed/' \
     -a root_uri '/opt/data/output/' \
     -a test True
@@ -107,7 +107,7 @@ resources that were created, as they can vary.
 
 ```
 rastervision -p batch run batch building_detection/building_detection.py \
-    -a raw_uri 's3://<Bucket name where images and labels  are>/' \
+    -a labels_uri 's3://<labels_bucketname>/' \
     -a processed_uri '<Path to processed data>' \
     -a root_uri '<Path to outputs>'
 ```
@@ -115,7 +115,7 @@ rastervision -p batch run batch building_detection/building_detection.py \
 For Example
 ```
 rastervision -p batch run batch building_detection/building_detection.py \
-    -a raw_uri 's3://rastervisiontest/' \
+    -a labels_uri 's3://rastervisiontest-labels/' \
     -a processed_uri 's3://rastervisiontest/output/data/processed/' \
     -a root_uri 's3://rastervisiontest/output/'
 ```
@@ -125,7 +125,7 @@ or just select commands such as train, predict and eval
 ```
 rastervision -p batch run batch building_detection/building_detection.py \
     train predict eval
-    -a raw_uri 's3://rastervisiontest/' \
+    -a labels_uri 's3://rastervisiontest-labels/' \
     -a processed_uri 's3://rastervisiontest/output/data/processed/' \
     -a root_uri 's3://rastervisiontest/output/'
 ```
