@@ -116,7 +116,7 @@ def write_data_to_bucket(output_path: str, aws_profile: str, tile_id: str, data:
 # pylint: disable=E1120
 # pylint: disable=R0913
 @click.command()
-@click.option("--lds-tile-layer", default="104691", help="The LDS layer id for the index tile dataset")
+@click.option("--lds-tile-layer", default="104691", help="The LDS layer id for the imagery index tile dataset")
 @click.option(
     "--lds-tile-id-field", default="index_tile_id", help="The index tile dataset's attribute name for the tile id field"
 )
